@@ -15,9 +15,6 @@ def dijkstras_shortest_path(initial_position, destination, graph, adj):
     Returns:
         If a path exits, return a list containing all cells from initial_position to destination.
         Otherwise, return None.
-
-
-
     """
     pass
 
@@ -33,6 +30,8 @@ def dijkstras_shortest_path_to_all(initial_position, graph, adj):
     Returns:
         A dictionary, mapping destination cells to the cost of a path from the initial_position.
     """
+
+    navigation_edges(graph, initial_position)
     pass
 
 
@@ -53,13 +52,13 @@ def navigation_edges(level, cell):
              ((1,1), 1.4142135623730951),
              ... ]
     """
-    adj_list = list()
+    adj_list = []
     dirs = [[1, 0], [0, 1], [-1, 0], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]]
     for dir in dirs:
-        neighbors = [dirs[0] + cell, dirs[1] + cell, dirs[2] + cell, dirs[3] + cell]
-        if adj_list in level['spaces']:
+        neighbors = (dir[0] + cell[0], dir[1] + cell[1])
+        if neighbors in level['spaces']:
             adj_list.append(neighbors)
-
+            print(adj_list)
     return adj_list
     pass
 
