@@ -54,14 +54,28 @@ def navigation_edges(level, cell):
     """
     adj_list = []
     dirs = [[1, 0], [0, 1], [-1, 0], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]]
+    diagdirs = [[1, 1], [-1, 1], [1, -1], [-1, -1]]
     for dir in dirs:
         neighbors = (dir[0] + cell[0], dir[1] + cell[1])
-        if neighbors in level['spaces']:
+        reach = sqrt(dir[0] * dir[0] + dir[1] * dir[1])
+        if reach > 0  and neighbors in level['spaces']:
             adj_list.append(neighbors)
+            if dir in diagdirs:
+                cost = sqrt(2) * (0.5 * level['spaces'].get(cell)) + (0.5 * level['spaces'].get(neighbors))
+            else:
+                cost = (0.5 * level['spaces'].get(cell) + (0.5 * level['spaces'].get(neighbors)))
+            adj_list.append(cost)
             print(adj_list)
+
     return adj_list
     pass
 
+def del_none(dict, key):
+    for none in dict:
+        if dict.get(key) is None:
+            del dict[key]
+
+    pass
 
 def test_route(filename, src_waypoint, dst_waypoint):
     """ Loads a level, searches for a path between the given waypoints, and displays the result.
