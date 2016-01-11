@@ -53,9 +53,14 @@ def navigation_edges(level, cell):
              ((1,1), 1.4142135623730951),
              ... ]
     """
-    adj_edges = list()
+    adj_list = list()
+    dirs = [[1, 0], [0, 1], [-1, 0], [0, -1], [1, 1], [-1, 1], [1, -1], [-1, -1]]
+    for dir in dirs:
+        neighbors = [dirs[0] + cell, dirs[1] + cell, dirs[2] + cell, dirs[3] + cell]
+        if adj_list in level['spaces']:
+            adj_list.append(neighbors)
 
-
+    return adj_list
     pass
 
 
