@@ -16,6 +16,39 @@ def dijkstras_shortest_path(initial_position, destination, graph, adj):
         If a path exits, return a list containing all cells from initial_position to destination.
         Otherwise, return None.
     """
+
+    dist = {}
+    prev = {}
+    queue = []
+
+    dist[initial_position] = 0
+    prev[initial_position] = None
+    heappush(queue,(dist[initial_position],initial_position))
+
+    while queue is not None:
+        _, u = heappop(queue)
+
+        if u == destination:
+            break
+
+        maze = adj(graph,u)
+        for v in maze:
+            alt = dist[u] + get_distance(u,v)
+            if alt < dist.get(v,alt+1):
+                dist[v] = alt
+                prev[v] = u
+                heappush(queue,(alt,v))
+
+    if u == destination:
+        path = []
+        while u:
+            path.append(u)
+            u = prev[u]
+        path.reverse()
+        return path
+    else:
+        return None
+
     pass
 
 
@@ -31,9 +64,30 @@ def dijkstras_shortest_path_to_all(initial_position, graph, adj):
         A dictionary, mapping destination cells to the cost of a path from the initial_position.
     """
 
-    navigation_edges(graph, initial_position)
     pass
 
+
+def get_distance(initial_position, destination):
+    x1 = initial_position[0]
+    y1 = initial_position[1]
+    x2 = destination[0]
+    y2 = destination[1]
+    distance = sqrt((x1-x2)**2+(y1-y2)**2)
+
+    return distance
+    pass
+
+# def get_path(path, destination, previous):
+#     if path == destination:
+#         route = []
+#         while path:
+#             route.append(path)
+#             path = previous[path]
+#         route.reverse()
+#         return route
+#     else:
+#         return None
+#     pass
 
 def navigation_edges(level, cell):
     """ Provides a list of adjacent cells and their respective costs from the given cell.
@@ -64,18 +118,17 @@ def navigation_edges(level, cell):
                 cost = sqrt(2) * (0.5 * level['spaces'].get(cell)) + (0.5 * level['spaces'].get(neighbors))
             else:
                 cost = (0.5 * level['spaces'].get(cell) + (0.5 * level['spaces'].get(neighbors)))
-            adj_list.append(cost)
-            print(adj_list)
+            #adj_list.append(cost)
 
     return adj_list
     pass
 
-def del_none(dict, key):
-    for none in dict:
-        if dict.get(key) is None:
-            del dict[key]
-
-    pass
+# def del_none(dict, key):
+#     for none in dict:
+#         if dict.get(key) is None:
+#             del dict[key]
+#
+#     pass
 
 def test_route(filename, src_waypoint, dst_waypoint):
     """ Loads a level, searches for a path between the given waypoints, and displays the result.
