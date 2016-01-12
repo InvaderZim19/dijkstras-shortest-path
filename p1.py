@@ -63,9 +63,17 @@ def dijkstras_shortest_path_to_all(initial_position, graph, adj):
     Returns:
         A dictionary, mapping destination cells to the cost of a path from the initial_position.
     """
+    # same algorithm as above, but you don't stop when you hit the point
+    #
     paths = {}
-    
+    prev = {}
+    queue = []
 
+    prev[initial_position] = None
+    paths[initial_position] = 0
+    heappush(queue, (paths[initial_position], initial_position))
+
+    #while
 
     pass
 
