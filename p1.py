@@ -32,8 +32,8 @@ def dijkstras_shortest_path(initial_position, destination, graph, adj):
             break
 
         maze = adj(graph,u)
-        for v in maze:
-            alt = dist[u] + get_distance(u,v)
+        for v, cost in maze:
+            alt = dist[u] + get_distance(u,v)*cost
             if alt < dist.get(v,alt+1):
                 dist[v] = alt
                 prev[v] = u
@@ -63,6 +63,9 @@ def dijkstras_shortest_path_to_all(initial_position, graph, adj):
     Returns:
         A dictionary, mapping destination cells to the cost of a path from the initial_position.
     """
+    paths = {}
+    
+
 
     pass
 
@@ -77,17 +80,6 @@ def get_distance(initial_position, destination):
     return distance
     pass
 
-# def get_path(path, destination, previous):
-#     if path == destination:
-#         route = []
-#         while path:
-#             route.append(path)
-#             path = previous[path]
-#         route.reverse()
-#         return route
-#     else:
-#         return None
-#     pass
 
 def navigation_edges(level, cell):
     """ Provides a list of adjacent cells and their respective costs from the given cell.
@@ -113,12 +105,12 @@ def navigation_edges(level, cell):
         neighbors = (dir[0] + cell[0], dir[1] + cell[1])
         reach = sqrt(dir[0] * dir[0] + dir[1] * dir[1])
         if reach > 0  and neighbors in level['spaces']:
-            adj_list.append(neighbors)
+            #adj_list.append(neighbors)
             if dir in diagdirs:
                 cost = sqrt(2) * (0.5 * level['spaces'].get(cell)) + (0.5 * level['spaces'].get(neighbors))
             else:
                 cost = (0.5 * level['spaces'].get(cell) + (0.5 * level['spaces'].get(neighbors)))
-            #adj_list.append(cost)
+            adj_list.append((neighbors, cost))
 
     return adj_list
     pass
@@ -186,4 +178,4 @@ if __name__ == '__main__':
     test_route(filename, src_waypoint, dst_waypoint)
 
     # Use this function to calculate the cost to all reachable cells from an origin point.
-    cost_to_all_cells(filename, src_waypoint, 'my_costs.csv')
+    #cost_to_all_cells(filename, src_waypoint, 'my_costs.csv')
